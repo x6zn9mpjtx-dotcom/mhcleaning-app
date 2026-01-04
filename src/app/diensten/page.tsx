@@ -11,7 +11,7 @@ const services = [
   {
     id: 2,
     title: 'Reinigen van Zonnepanelen',
-    description: 'Zonnepanelen worden regelmatig vuil. Wij zorgen ervoor dat jouw panelen optimaal werken en meer energie opbrengen door professionele reiniging.',
+     details: 'Voorkomen van vervuiling • Veilig werken op hoogte • Langere levensduur',
     image: '/images/zon1.jpg',
     details: 'Verhoogde efficiëntie • Veilig en professioneel • Regelmatig onderhoud',
   },
