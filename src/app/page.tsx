@@ -74,23 +74,28 @@ export default function HomePage() {
           <div className="usp-grid">
             {[
               {
+                icon: "✨",
                 title: "Propere afwerking",
                 text: "Steeds netjes afgewerkt met oog voor detail—binnen én buiten.",
               },
               {
+                icon: "💬",
                 title: "Snelle communicatie",
                 text: "Altijd snel antwoord via WhatsApp of e-mail.",
               },
               {
+                icon: "💰",
                 title: "Correcte prijs",
                 text: "Duidelijke, eerlijke prijzen zonder verrassingen en zonder verplichtingen.",
               },
               {
+                icon: "😊",
                 title: "Altijd vriendelijk",
                 text: "Een vaste, vriendelijke ramenwasser die je kent en vertrouwt.",
               },
-            ].map((u) => (
-              <div key={u.title} className="card">
+            ].map((u, index) => (
+              <div key={u.title} className="card" style={{animationDelay: `${0.2 + index * 0.1}s`}}>
+                <div className="card-icon">{u.icon}</div>
                 <h3 className="card-title">{u.title}</h3>
                 <p className="card-text">{u.text}</p>
               </div>

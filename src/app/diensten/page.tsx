@@ -11,16 +11,16 @@ const services = [
   {
     id: 2,
     title: 'Reinigen van Zonnepanelen',
-     details: 'Voorkomen van vervuiling • Veilig werken op hoogte • Langere levensduur',
+    description: 'Zonnepanelen worden regelmatig vuil. Wij zorgen ervoor dat jouw panels optimaal werken en meer energie opbrengen door professionele reiniging.',
     image: '/images/zon1.jpg',
-    details: 'Verhoogde efficiëntie • Veilig en professioneel • Regelmatig onderhoud',
+    details: 'Verhoogde efficiency • Veilig en professioneel • Regelmatig onderhoud',
   },
   {
     id: 3,
     title: 'Reinigen van Afdaken',
     description: 'Afdaken en overkappingen verdienen goed onderhoud. Wij reinigen deze oppervlakken professioneel, voorzichtig en effectief.',
     image: '/images/afdak1.jpg',
-    details: 'Voorkoming van vervuiling • Veilig werken op hoogte • Langere levensduur',
+     details: 'Voorkomen van vervuiling • Veilig werken op hoogte • Langere levensduur',
   },
 ];
 

@@ -1,34 +1,78 @@
 /* GEEN Tailwind – alleen eigen CSS */
 /* Premium Blue & White Color Scheme for Window Cleaning */
 
+/* Modern animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 /* Color Variables */
 :root {
-  /* Primary Blues */
-  --primary-dark: #0a2f6f;      /* Deep blue */
-  --primary-blue: #1e5a96;      /* Rich blue */
-  --primary-light: #2b7ac9;     /* Bright blue */
-  --accent-light: #5fa3d9;      /* Soft blue */
+  /* Modern, subtle blues */
+  --primary-dark: #1e293b;        /* Slate dark */
+  --primary-blue: #3b82f6;        /* Blue 500 */
+  --primary-light: #60a5fa;       /* Blue 400 */
+  --accent-light: #93c5fd;        /* Blue 300 */
   
-  /* Neutral Whites */
-  --white-pure: #ffffff;        /* Pure white */
-  --white-off: #f8fbff;         /* Very light blue-white */
-  --gray-light: #e8f0f8;        /* Light blue-gray */
-  --gray-medium: #a8b8c8;       /* Medium gray */
-  --gray-dark: #4a5568;         /* Dark gray */
+  /* Soft neutrals */
+  --white-pure: #ffffff;
+  --white-off: #fefefe;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1;
+  --gray-400: #94a3b8;
+  --gray-500: #64748b;
+  --gray-600: #475569;
+  --gray-700: #334155;
+  --gray-800: #1e293b;
+  --gray-900: #0f172a;
   
   /* Text Colors */
-  --text-dark: #1a2332;         /* Dark text */
-  --text-light: #ffffff;        /* Light text */
+  --text-dark: #1e293b;
+  --text-medium: #475569;
+  --text-light: #64748b;
   
   /* Accents */
-  --accent-cyan: #00d4ff;       /* Clean cyan (like clean water/glass) */
-  --accent-green: #10b981;      /* Success green */
+  --accent-blue: #3b82f6;
+  --accent-green: #10b981;
 }
 
 /* Basis reset & typografie
    ------------------------------------------------------------------ */
 * {
   box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 html,
@@ -39,21 +83,54 @@ body {
   height: 100%;
 }
 
+/* Modern animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background: linear-gradient(
     180deg,
-    var(--primary-dark) 0%,
-    var(--primary-blue) 25%,
-    var(--primary-light) 45%,
-    var(--accent-light) 60%,
-    var(--white-off) 80%,
-    var(--white-pure) 100%
+    #1e40af 0%,
+    #3b82f6 30%,
+    #60a5fa 60%,
+    #dbeafe 90%,
+    #ffffff 100%
   );
-  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% 100vh;
   color: var(--text-dark);
   min-height: 100vh;
+  line-height: 1.7;
+  font-size: 16px;
 }
 
 a {
@@ -126,6 +203,27 @@ body {
 
 .nav-links a:hover {
   color: var(--primary-light);
+}
+
+/* Section Styling */
+section {
+  margin: 2rem 0;
+  border-radius: 20px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Subtle alternating sections */
+section:nth-child(odd) {
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+section:nth-child(even) {
+  background: rgba(59, 130, 246, 0.15);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 /* Mobile responsive header */
@@ -294,12 +392,18 @@ body {
 /* HERO – Premium blue gradient with smooth white blend
    ------------------------------------------------------------------ */
 .hero {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
   color: var(--white-pure);
   padding: 6.25rem 1.25rem 4rem 1.25rem;
   text-align: left;
   position: relative;
   overflow: visible;
+  margin: 1.5rem;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
 }
 
 .hero-grid {
@@ -317,28 +421,88 @@ body {
   }
 }
 
+/* Animation utility classes */
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.6s ease-out;
+}
+
+.stagger-1 { animation-delay: 0.1s; }
+.stagger-2 { animation-delay: 0.2s; }
+.stagger-3 { animation-delay: 0.3s; }
+.stagger-4 { animation-delay: 0.4s; }
+
+/* Hero animations */
 .hero-title {
-  font-size: 2.5rem;
-  font-weight: 700;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-sub {
+  animation: fadeInUp 1s ease-out 0.2s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+.hero-list {
+  animation: fadeInUp 1s ease-out 0.4s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+.hero-buttons {
+  animation: fadeInUp 1s ease-out 0.6s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+.hero-image {
+  animation: scaleIn 1.2s ease-out 0.3s;
+  animation-fill-mode: both;
+  opacity: 0;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 600;
   line-height: 1.1;
-  color: var(--white-pure);
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeInUp 0.8s ease-out;
 }
 
 .hero-highlight {
-  color: var(--accent-cyan);
+  color: #93c5fd;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .hero-sub {
   margin-top: 1rem;
-  font-size: 1.1rem;
-  color: var(--gray-light);
+  font-size: 1.2rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.6;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.25);
+  animation: fadeInUp 0.8s ease-out 0.2s;
+  animation-fill-mode: both;
+  opacity: 0;
 }
 
 .hero-list {
   margin-top: 1.5rem;
   padding: 0;
   list-style: none;
-  color: var(--white-pure);
+  color: rgba(255, 255, 255, 0.9);
+  animation: fadeInUp 0.8s ease-out 0.4s;
+  animation-fill-mode: both;
+  opacity: 0;
 }
 
 .hero-list li {
@@ -356,6 +520,9 @@ body {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  animation: fadeInUp 0.8s ease-out 0.6s;
+  animation-fill-mode: both;
+  opacity: 0;
 }
 
 .hero-image {
@@ -366,26 +533,25 @@ body {
   border: 2px solid rgba(255, 255, 255, 0.2);
   position: relative;
   z-index: 1;
+  animation: scaleIn 1s ease-out 0.3s;
+  animation-fill-mode: both;
+  opacity: 0;
 }
 
-/* SECTIONS (algemeen)
-   ------------------------------------------------------------------ */
+/* Modern sections - smooth flow */
 .section {
-  padding: 3.5rem 0;
+  padding: 5rem 0;
   background: transparent;
   position: relative;
-  overflow: visible;
 }
 
 .section-light {
-  padding: 3.5rem 0;
+  padding: 4rem 0;
   background: transparent;
   color: var(--text-dark);
   position: relative;
-  overflow: visible;
 }
 
-/* Smooth transition section - continues from hero blue */
 .section-drops {
   position: relative;
   padding: 4rem 0;
@@ -393,24 +559,12 @@ body {
   overflow: visible;
 }
 
-.section-drops::before {
-  content: none;
-}
-
-.section-drops::after {
-  content: none;
-}
-
-/* Transition fade for section-light from white */
-.section-light::before {
-  content: none;
-}
-
-/* Content stays above fades */
-.section-drops .container,
-.section-light .container {
-  position: relative;
-  z-index: 1;
+/* Remove old pseudo-elements and special containers */
+.section-drops::before,
+.section-drops::after,
+.section-light::before,
+.section-light::after {
+  display: none;
 }
 
 /* TITLES & TEXT
@@ -449,6 +603,17 @@ body {
   font-size: 1rem;
 }
 
+/* White text for section-drops against blue background */
+.section-drops .section-title-left {
+  color: var(--white-pure);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-drops .section-text {
+  color: var(--white-pure);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
 /* Dark section titles */
 .section-light .section-title {
   color: var(--primary-dark);
@@ -484,19 +649,59 @@ body {
 }
 
 .card {
-  background: var(--white-off);
-  border-radius: 0.75rem;
-  padding: 1.5rem;
-  border: 1px solid var(--gray-light);
-  box-shadow: 0 2px 8px rgba(30, 90, 150, 0.08);
-  transition: transform 0.3s ease, 
-              box-shadow 0.3s ease,
-              background-color 0.3s ease;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 20px;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(30, 90, 150, 0.1);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), 
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              background-color 0.4s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary-blue), var(--primary-light));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.card:hover::before {
+  transform: scaleX(1);
 }
 
 .card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(30, 90, 150, 0.15);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 60px rgba(30, 90, 150, 0.2);
+  background: rgba(255, 255, 255, 1);
+}
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, var(--primary-blue), var(--primary-light));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1.25rem;
+  font-size: 22px;
+  color: white;
+  box-shadow: 0 4px 20px rgba(59, 130, 246, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.card:hover .card-icon {
+  transform: scale(1.1) rotate(3deg);
 }
 
 .card-title {
@@ -513,20 +718,23 @@ body {
 
 /* Dark variant for dark sections */
 .section-light .card {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(88, 169, 221, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
 }
 
 .section-light .card:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 8px 20px rgba(30, 90, 150, 0.25);
 }
 
 .section-light .card-title {
   color: var(--primary-dark);
+  font-weight: 700;
 }
 
 .section-light .card-text {
-  color: var(--gray-dark);
+  color: var(--text-dark);
 }
 
 /* USP grid */
@@ -561,41 +769,44 @@ body {
   color: var(--gray-dark);
 }
 
-/* Buttons
-   ------------------------------------------------------------------ */
+/* Modern Buttons */
 .btn-primary {
-  background: var(--primary-light);
-  color: var(--white-pure);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
+  background: #3b82f6;
+  color: #ffffff;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
   border: none;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(43, 122, 201, 0.3);
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
   display: inline-block;
+  transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
 .btn-primary:hover {
-  background: var(--primary-blue);
-  box-shadow: 0 6px 16px rgba(43, 122, 201, 0.4);
+  background: #2563eb;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+  transform: translateY(-1px);
 }
 
 .btn-outline-gold {
-  border: 2px solid var(--accent-green);
-  color: var(--accent-green);
-  padding: 0.75rem 1.5rem;
-  border-radius: 0.5rem;
-  font-weight: 600;
-  background: var(--white-pure);
+  border: 2px solid #3b82f6;
+  color: #3b82f6;
+  padding: 0.875rem 2rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  background: transparent;
   cursor: pointer;
   display: inline-block;
-  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+  transition: all 0.2s ease;
+  font-size: 1rem;
 }
 
 .btn-outline-gold:hover {
-  background: var(--accent-green);
-  color: var(--white-pure);
-  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.3);
+  background: #3b82f6;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
 .btn-white {

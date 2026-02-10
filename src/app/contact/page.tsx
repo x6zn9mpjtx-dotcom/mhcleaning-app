@@ -227,7 +227,7 @@ export default function ContactPage() {
                 <strong>WhatsApp:</strong> <a href="https://wa.me/32495783110">+32(0)495 78 31 10</a>
               </p>
               <p>
-                <strong>Email:</strong> <a href="mailto:m.h.windowcleaning@outlook.com">m.h.windowcleaning@outlook.com</a>
+                <strong>Email:</strong> <a href="mailto:info@mhcleaning.be">info@mhcleaning.be</a>
               </p>
               <p>
                 <strong>Regio:</strong> Lommel en omgeving
