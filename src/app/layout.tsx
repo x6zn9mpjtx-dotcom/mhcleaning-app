@@ -1,8 +1,9 @@
 import "./globals.css";
 import Navigation from "@/components/Navigation";
+import WaterDrops from "@/components/WaterDrops";
 
 export const metadata = {
-  title: "MH Cleaning – Ramenwasser Maarten Hendrickx",
+  title: "MH Cleaning \u2013 Ramenwasser Maarten Hendrickx",
   description:
     "Professionele ramenwasser in Lommel en omgeving. MH Cleaning biedt propere afwerking, correcte prijs en snelle communicatie.",
 };
@@ -15,6 +16,9 @@ export default function RootLayout({
   return (
     <html lang="nl">
       <body>
+        {/* Waterdruppels op alle pagina's */}
+        <WaterDrops />
+
         {/* HEADER */}
         <header className="header">
           <Navigation />
