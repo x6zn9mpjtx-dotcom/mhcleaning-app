@@ -2,6 +2,54 @@
 
 import { useState } from 'react';
 
+// Telefoonfoto's zijn al snel 5 MB per stuk. We verkleinen ze in de browser,
+// anders komt de aanvraag nooit door de limiet van de server heen.
+const MAX_DIMENSION = 1600;
+const MAX_IMAGES = 10;
+
+function compressImage(file: File): Promise<File> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const objectUrl = URL.createObjectURL(file);
+
+    img.onload = () => {
+      URL.revokeObjectURL(objectUrl);
+
+      const scale = Math.min(1, MAX_DIMENSION / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+
+      const ctx = canvas.getContext('2d');
+      if (!ctx) {
+        resolve(file);
+        return;
+      }
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) {
+            resolve(file);
+            return;
+          }
+          const name = file.name.replace(/\.[^.]+$/, '') + '.jpg';
+          resolve(new File([blob], name, { type: 'image/jpeg' }));
+        },
+        'image/jpeg',
+        0.75
+      );
+    };
+
+    img.onerror = () => {
+      URL.revokeObjectURL(objectUrl);
+      reject(new Error('Kon de afbeelding niet lezen'));
+    };
+
+    img.src = objectUrl;
+  });
+}
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: '',
@@ -13,6 +61,9 @@ export default function ContactPage() {
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);
+  const [processing, setProcessing] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -22,80 +73,86 @@ export default function ContactPage() {
     }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
-    if (files) {
-      const newFiles = Array.from(files);
-      
-      // Max 10 foto's controle
-      if (images.length + newFiles.length > 10) {
-        alert('Je kunt maximum 10 foto\'s uploaden');
-        return;
+    if (!files) return;
+
+    const newFiles = Array.from(files);
+    e.target.value = '';
+
+    // Max 10 foto's controle
+    if (images.length + newFiles.length > MAX_IMAGES) {
+      setError(`Je kunt maximum ${MAX_IMAGES} foto's uploaden`);
+      return;
+    }
+
+    // Controleer bestandstype
+    const validFiles = newFiles.filter((file) => file.type.startsWith('image/'));
+    if (validFiles.length !== newFiles.length) {
+      setError('Alleen afbeeldingen kunnen geüpload worden');
+    }
+
+    setProcessing(true);
+    try {
+      for (const file of validFiles) {
+        const compressed = await compressImage(file);
+        // Foto en preview samen toevoegen, zodat ze in dezelfde volgorde blijven
+        setImages((prev) => [...prev, compressed]);
+        setImagePreviews((prev) => [...prev, URL.createObjectURL(compressed)]);
       }
-
-      // Controleer bestandstype
-      const validFiles = newFiles.filter(file => {
-        if (!file.type.startsWith('image/')) {
-          alert(`${file.name} is geen afbeelding`);
-          return false;
-        }
-        return true;
-      });
-
-      setImages((prev) => [...prev, ...validFiles]);
-
-      // Maak previews
-      validFiles.forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          setImagePreviews((prev) => [...prev, event.target?.result as string]);
-        };
-        reader.readAsDataURL(file);
-      });
-
-      // Reset input
-      e.target.value = '';
+    } catch {
+      setError('Een van de foto\'s kon niet verwerkt worden');
+    } finally {
+      setProcessing(false);
     }
   };
 
   const removeImage = (index: number) => {
+    URL.revokeObjectURL(imagePreviews[index]);
     setImages((prev) => prev.filter((_, i) => i !== index));
     setImagePreviews((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+    setError('');
+    setSending(true);
+
     // Maak een FormData object met de form gegevens en foto's
     const submitData = new FormData();
     submitData.append('name', formData.name);
     submitData.append('email', formData.email);
     submitData.append('phone', formData.phone);
     submitData.append('message', formData.message);
-    
+
     // Voeg foto's toe
     images.forEach((image, index) => {
       submitData.append(`image_${index}`, image);
     });
 
-    // Stuur naar API
-    fetch('/api/contact', {
-      method: 'POST',
-      body: submitData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Succes:', data);
-        setSubmitted(true);
-        setFormData({ name: '', email: '', phone: '', message: '' });
-        setImages([]);
-        setImagePreviews([]);
-        setTimeout(() => setSubmitted(false), 3000);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-        alert('Er is een fout opgetreden. Probeer het later opnieuw.');
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        body: submitData,
       });
+      const data = await response.json().catch(() => null);
+
+      if (!response.ok || !data?.success) {
+        setError(data?.error ?? 'Er is een fout opgetreden. Probeer het later opnieuw.');
+        return;
+      }
+
+      setSubmitted(true);
+      setFormData({ name: '', email: '', phone: '', message: '' });
+      imagePreviews.forEach((preview) => URL.revokeObjectURL(preview));
+      setImages([]);
+      setImagePreviews([]);
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch {
+      setError('Er is een fout opgetreden. Probeer het later opnieuw.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -179,11 +236,13 @@ export default function ContactPage() {
                   multiple
                   accept="image/*"
                   onChange={handleImageChange}
-                  disabled={images.length >= 10}
+                  disabled={images.length >= MAX_IMAGES || processing}
                   className="file-input"
                 />
                 <p className="form-help-text">
-                  Je hebt {images.length} van 10 foto's geüpload
+                  {processing
+                    ? "Foto's worden verwerkt..."
+                    : `Je hebt ${images.length} van ${MAX_IMAGES} foto's toegevoegd`}
                 </p>
               </div>
 
@@ -207,8 +266,8 @@ export default function ContactPage() {
                 </div>
               )}
 
-              <button type="submit" className="btn-primary">
-                Offerte aanvragen
+              <button type="submit" className="btn-primary" disabled={sending || processing}>
+                {sending ? 'Versturen...' : 'Offerte aanvragen'}
               </button>
 
               {submitted && (
@@ -216,6 +275,8 @@ export default function ContactPage() {
                   ✓ Bedankt! We nemen snel contact met je op.
                 </div>
               )}
+
+              {error && <div className="error-message">{error}</div>}
             </form>
 
             <div className="contact-info">
