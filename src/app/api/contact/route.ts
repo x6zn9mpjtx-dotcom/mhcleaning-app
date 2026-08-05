@@ -17,18 +17,73 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// Adres waar aanvragen binnenkomen. Hetzelfde adres staat op de contactpagina.
+const CONTACT_EMAIL = 'info@mhcleaning.be';
+
 // Vercel weigert bodies boven ~4,5 MB, dus houden we ruim marge
 const MAX_IMAGES = 10;
 const MAX_TOTAL_BYTES = 4 * 1024 * 1024;
+
+// Spambeveiliging: hoeveel aanvragen mag één bezoeker per kwartier sturen
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX = 3;
+const recentRequests = new Map<string, number[]>();
+
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const timestamps = (recentRequests.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+
+  if (timestamps.length >= RATE_LIMIT_MAX) {
+    recentRequests.set(ip, timestamps);
+    return true;
+  }
+
+  timestamps.push(now);
+  recentRequests.set(ip, timestamps);
+
+  // Oude bezoekers opruimen zodat de map niet blijft groeien
+  if (recentRequests.size > 500) {
+    for (const [key, times] of recentRequests) {
+      if (times.every((t) => now - t >= RATE_LIMIT_WINDOW_MS)) {
+        recentRequests.delete(key);
+      }
+    }
+  }
+
+  return false;
+}
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
 
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const phone = formData.get('phone') as string;
-    const message = formData.get('message') as string;
+    // Honeypot: dit veld is onzichtbaar voor mensen. Is het ingevuld, dan is het
+    // een bot. We doen alsof het gelukt is, zodat die niet gaat variëren.
+    if ((formData.get('website') as string)?.trim()) {
+      return NextResponse.json({ success: true, message: 'Email verzonden' }, { status: 200 });
+    }
+
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0].trim() ?? 'onbekend';
+    if (isRateLimited(ip)) {
+      return NextResponse.json(
+        { success: false, error: 'Je hebt net al een aanvraag verstuurd. Probeer het later opnieuw of bel ons.' },
+        { status: 429 }
+      );
+    }
+
+    const name = (formData.get('name') as string ?? '').trim();
+    const email = (formData.get('email') as string ?? '').trim();
+    const phone = (formData.get('phone') as string ?? '').trim();
+    const message = (formData.get('message') as string ?? '').trim();
+
+    if (!name || !phone || !message || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return NextResponse.json(
+        { success: false, error: 'Vul alsjeblieft alle velden correct in.' },
+        { status: 400 }
+      );
+    }
 
     // Haal de geüploade foto's uit het formulier en maak er bijlagen van
     const files = Array.from(formData.entries())
@@ -67,7 +122,7 @@ export async function POST(request: NextRequest) {
     // Stuur email naar jou, met de foto's als bijlage
     await transporter.sendMail({
       from: process.env.EMAIL_USER,
-      to: 'm.h.windowcleaning@outlook.com',
+      to: CONTACT_EMAIL,
       replyTo: email,
       subject: `Nieuwe offerteverzoek van ${name}`,
       html: htmlContent,
@@ -78,8 +133,9 @@ export async function POST(request: NextRequest) {
     // nog steeds bij ons binnen, dus laten we de hele request niet falen.
     try {
       await transporter.sendMail({
-        from: process.env.EMAIL_USER,
+        from: `"MH Cleaning" <${process.env.EMAIL_USER}>`,
         to: email,
+        replyTo: CONTACT_EMAIL,
         subject: 'Je offerteverzoek is ontvangen - MH Cleaning',
         html: `
         <h2>Bedankt voor je aanvraag!</h2>
@@ -89,6 +145,7 @@ export async function POST(request: NextRequest) {
         <ul>
           <li>Telefoon: +32(0)495 78 31 10</li>
           <li>WhatsApp: +32(0)495 78 31 10</li>
+          <li>E-mail: ${CONTACT_EMAIL}</li>
         </ul>
         <p>Met vriendelijke groet,<br>MH Cleaning</p>
       `,

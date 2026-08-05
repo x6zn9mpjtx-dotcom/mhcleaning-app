@@ -1496,6 +1496,16 @@ section:nth-child(even) {
   animation: slideIn 0.3s ease;
 }
 
+/* Honeypot: onzichtbaar voor bezoekers, wel vindbaar voor spambots */
+.honeypot-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .error-message {
   margin-top: 1.5rem;
   padding: 1rem;
@@ -1676,5 +1686,29 @@ body {
   100% {
     transform: scale(1);
     opacity: 0;
+  }
+}
+
+/* ── Bewegingsarme weergave ──────────────────────────────────────────────
+   Bezoekers die in hun systeeminstellingen minder beweging hebben gevraagd
+   krijgen de site zonder animaties. Alles blijft zichtbaar en bruikbaar. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .water-drops-container {
+    display: none;
+  }
+
+  /* Scroll-animaties tonen hun eindtoestand meteen */
+  .scroll-animate {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

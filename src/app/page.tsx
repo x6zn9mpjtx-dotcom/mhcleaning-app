@@ -1,6 +1,7 @@
 'use client';
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useCallback } from "react";
 
 export default function HomePage() {
@@ -26,29 +27,25 @@ export default function HomePage() {
   }, []);
 
   // ── Water ripple effect on buttons ──
+  // De ripple is puur decoratief: de link doet gewoon zijn eigen werk, zodat
+  // ctrl+klik, middenklik en snelle navigatie blijven werken.
   const handleRipple = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
     const button = e.currentTarget;
-    const href = button.getAttribute('href');
-
-    const ripple = document.createElement('span');
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height) * 2.5;
-    const x = e.clientX - rect.left - size / 2;
-    const y = e.clientY - rect.top - size / 2;
 
+    // Bij toetsenbordbediening is er geen muispositie; start dan vanuit het midden
+    const originX = e.clientX || rect.left + rect.width / 2;
+    const originY = e.clientY || rect.top + rect.height / 2;
+
+    const ripple = document.createElement('span');
     ripple.className = 'water-ripple';
     ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
+    ripple.style.left = `${originX - rect.left - size / 2}px`;
+    ripple.style.top = `${originY - rect.top - size / 2}px`;
+    ripple.addEventListener('animationend', () => ripple.remove());
 
     button.appendChild(ripple);
-
-    // Wacht even zodat de ripple zichtbaar is, dan pas navigeren
-    setTimeout(() => {
-      ripple.remove();
-      if (href) window.location.href = href;
-    }, 400);
   }, []);
 
   return (
@@ -78,13 +75,15 @@ export default function HomePage() {
             </ul>
 
             <div className="hero-buttons">
-              <a href="/contact" className="btn-primary ripple-btn" onClick={handleRipple}>
+              <Link href="/contact" className="btn-primary ripple-btn" onClick={handleRipple}>
                 Vrijblijvende offerte
-              </a>
+              </Link>
               <a
                 href="https://wa.me/32495783110"
                 className="btn-outline-gold ripple-btn"
                 onClick={handleRipple}
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 WhatsApp sturen
               </a>

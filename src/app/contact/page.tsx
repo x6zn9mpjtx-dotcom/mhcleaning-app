@@ -64,6 +64,7 @@ export default function ContactPage() {
   const [processing, setProcessing] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
+  const [honeypot, setHoneypot] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -124,6 +125,7 @@ export default function ContactPage() {
     submitData.append('email', formData.email);
     submitData.append('phone', formData.phone);
     submitData.append('message', formData.message);
+    submitData.append('website', honeypot);
 
     // Voeg foto's toe
     images.forEach((image, index) => {
@@ -176,6 +178,18 @@ export default function ContactPage() {
         <div className="container">
           <div className="contact-form-wrapper">
             <form onSubmit={handleSubmit} className="contact-form">
+              {/* Honeypot tegen spambots: onzichtbaar voor bezoekers */}
+              <input
+                type="text"
+                name="website"
+                value={honeypot}
+                onChange={(e) => setHoneypot(e.target.value)}
+                className="honeypot-field"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-hidden="true"
+              />
+
               <div className="form-group">
                 <label htmlFor="name">Naam *</label>
                 <input
