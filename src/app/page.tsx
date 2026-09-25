@@ -139,7 +139,7 @@ export default function HomePage() {
       </section>
 
       {/* DIENSTEN */}
-      <section className="band band--sand" id="diensten">
+      <section className="band band--cream" id="diensten">
         <div className="wrap">
           <Reveal stagger className="section-head">
             <span className="eyebrow">Diensten</span>
@@ -170,7 +170,7 @@ export default function HomePage() {
       </section>
 
       {/* RESULTAAT */}
-      <section className="band band--ink" id="resultaat">
+      <section className="band band--ink band--roomy" id="resultaat">
         <div className="wrap">
           <Reveal stagger className="section-head">
             <span className="eyebrow">Resultaat</span>
@@ -222,7 +222,7 @@ export default function HomePage() {
       </section>
 
       {/* CTA */}
-      <section className="band band--sand cta-band">
+      <section className="band band--cream cta-band">
         <div className="wrap">
           <Reveal stagger>
             <h2 className="h2">Een vaste ramenwasser in Lommel?</h2>

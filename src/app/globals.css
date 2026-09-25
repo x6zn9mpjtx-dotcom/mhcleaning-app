@@ -118,6 +118,19 @@ ul {
   padding: var(--band-y) 0;
 }
 
+/* Twee lichte vlakken na elkaar vormen één doorlopend veld. De onderruimte van
+   het vorige vlak is al de scheiding, dus geen dubbele marge ertussen. */
+.band--cream + .band--cream:not(.cta-band) {
+  padding-top: 0;
+}
+
+/* Niet elk vlak even hoog: dat gelijke ritme is wat de pagina gestapeld
+   laat ogen. Het donkere blok krijgt bewust meer lucht. */
+.band--roomy {
+  padding-top: clamp(6rem, 12vw, 10rem);
+  padding-bottom: clamp(6rem, 12vw, 10rem);
+}
+
 /* Ankers niet onder de vaste header laten verdwijnen */
 section[id] {
   scroll-margin-top: 90px;
@@ -130,10 +143,6 @@ section[id] {
 
 .band--cream {
   background: var(--cream);
-}
-
-.band--sand {
-  background: var(--sand);
 }
 
 .main {
@@ -726,6 +735,12 @@ section[id] {
 /* ── CTA-band ────────────────────────────────────────────────────────── */
 .cta-band {
   text-align: center;
+}
+
+/* Geen kleurwissel meer om de slotoproep af te bakenen, dus een haarlijn */
+.cta-band .wrap {
+  padding-top: clamp(3rem, 6vw, 4.5rem);
+  border-top: 1px solid var(--line);
 }
 
 .cta-band .h2 {

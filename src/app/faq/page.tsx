@@ -79,7 +79,7 @@ export default function FAQPage() {
         </div>
       </section>
 
-      <section className="band band--sand cta-band">
+      <section className="band band--cream cta-band">
         <div className="wrap">
           <Reveal stagger>
             <h2 className="h2">Staat uw vraag er niet bij?</h2>

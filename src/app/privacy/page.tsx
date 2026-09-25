@@ -105,7 +105,7 @@ export default function PrivacyPage() {
         </div>
       </section>
 
-      <section className="band band--sand cta-band">
+      <section className="band band--cream cta-band">
         <div className="wrap">
           <Reveal stagger>
             <h2 className="h2">Nog een vraag?</h2>
