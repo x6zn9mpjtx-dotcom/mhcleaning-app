@@ -1,6 +1,6 @@
 'use client';
 
-import Image from 'next/image';
+import Photo from '@/components/Photo';
 import { useState } from 'react';
 
 type BeforeAfterProps = {
@@ -21,7 +21,7 @@ export default function BeforeAfter({ before, after, alt = '' }: BeforeAfterProp
         {/* Onderste laag: na */}
         <div className="ba-layer">
           {hasPhotos ? (
-            <Image src={after!} alt={alt} fill sizes="(max-width: 960px) 100vw, 1160px" />
+            <Photo src={after!} alt={alt} fill sizes="(max-width: 960px) 100vw, 1160px" />
           ) : (
             <div className="photo-ph ba-fill">Foto na</div>
           )}
@@ -33,7 +33,7 @@ export default function BeforeAfter({ before, after, alt = '' }: BeforeAfterProp
           style={{ clipPath: `inset(0 ${100 - position}% 0 0)` }}
         >
           {hasPhotos ? (
-            <Image src={before!} alt={alt} fill sizes="(max-width: 960px) 100vw, 1160px" />
+            <Photo src={before!} alt={alt} fill sizes="(max-width: 960px) 100vw, 1160px" />
           ) : (
             <div className="photo-ph ba-fill ba-fill--before">Foto voor</div>
           )}

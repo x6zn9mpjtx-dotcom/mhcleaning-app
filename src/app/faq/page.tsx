@@ -38,7 +38,7 @@ export default function FAQPage() {
     <>
       <section className="page-head">
         <div className="wrap">
-          <Reveal>
+          <Reveal stagger>
             <span className="eyebrow">Veelgestelde vragen</span>
             <h1 className="display">Goed om te weten</h1>
             <p className="lede">
@@ -81,7 +81,7 @@ export default function FAQPage() {
 
       <section className="band band--sand cta-band">
         <div className="wrap">
-          <Reveal>
+          <Reveal stagger>
             <h2 className="h2">Staat uw vraag er niet bij?</h2>
             <p className="lede">
               Stuur gerust een bericht. U krijgt binnen de acht uur een

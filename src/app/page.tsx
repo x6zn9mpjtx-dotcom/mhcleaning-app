@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
+import Photo from '@/components/Photo';
 import BeforeAfter from '@/components/BeforeAfter';
 
 const pillars = [
   {
     title: 'Oog voor detail',
-    text: 'Kaders, vensterbanken en hoeken horen erbij. Streepvrij, ook in tegenlicht.',
+    text: 'Kaders, hoeken en randen horen erbij. Streepvrij, ook in tegenlicht.',
     icon: (
       <path d="M1 11S4.5 4.5 11 4.5 21 11 21 11s-3.5 6.5-10 6.5S1 11 1 11Zm10 2.75a2.75 2.75 0 1 0 0-5.5 2.75 2.75 0 0 0 0 5.5Z" />
     ),
@@ -27,7 +28,7 @@ const pillars = [
   },
   {
     title: 'Persoonlijk contact',
-    text: 'Een vraag of een extra beurt? Eén bericht via WhatsApp volstaat.',
+    text: 'Een vraag of een afspraak tussendoor? Eén bericht via WhatsApp volstaat.',
     icon: (
       <path d="M20.5 10.5c0 4.14-4.25 7.5-9.5 7.5a11.4 11.4 0 0 1-2.86-.36L2.5 19.5l1.68-4.2A6.93 6.93 0 0 1 1.5 10.5C1.5 6.36 5.75 3 11 3s9.5 3.36 9.5 7.5Z" />
     ),
@@ -37,7 +38,7 @@ const pillars = [
 const services = [
   {
     title: 'Ramen binnen & buiten',
-    text: 'Traditioneel gewassen met wisser en ladder, streepvrij afgewerkt. Kaders en vensterbanken worden meegenomen, zodat het geheel er verzorgd uitziet.',
+    text: 'Traditioneel gewassen met de raamwisser, streepvrij afgewerkt. Ook de kaders worden meegenomen, zodat het geheel er verzorgd uitziet.',
     image: '/images/ramen wassen1.jpg',
     detail: 'Streepvrij · Binnen en buiten · Alle raamtypes',
   },
@@ -49,9 +50,9 @@ const services = [
   },
   {
     title: 'Zonnepanelen',
-    text: 'Zacht gereinigd zonder krassen, zodat uw panelen weer volop zonlicht opvangen en hun rendement behouden.',
+    text: 'Zacht gereinigd met osmosewater, zodat er geen kalkvlekken achterblijven en uw panelen weer volop zonlicht opvangen.',
     image: '/images/zon1.jpg',
-    detail: 'Hoger rendement · Zacht gereinigd · Periodiek onderhoud',
+    detail: 'Hoger rendement · Osmosewater · Periodiek onderhoud',
   },
 ];
 
@@ -61,7 +62,7 @@ export default function HomePage() {
       {/* HERO */}
       <section className="hero">
         <div className="wrap hero-grid">
-          <Reveal>
+          <Reveal stagger>
             <span className="eyebrow">Ramenwasser in Lommel · sinds 2019</span>
             <h1 className="display">
               Het verschil
@@ -109,7 +110,7 @@ export default function HomePage() {
       {/* WAAROM */}
       <section className="band band--cream">
         <div className="wrap">
-          <Reveal className="section-head">
+          <Reveal stagger className="section-head">
             <span className="eyebrow">Waarom MH Cleaning</span>
             <h2 className="h2">Vakwerk, geen haastwerk.</h2>
           </Reveal>
@@ -140,7 +141,7 @@ export default function HomePage() {
       {/* DIENSTEN */}
       <section className="band band--sand" id="diensten">
         <div className="wrap">
-          <Reveal className="section-head">
+          <Reveal stagger className="section-head">
             <span className="eyebrow">Diensten</span>
             <h2 className="h2">Waar ik voor zorg</h2>
           </Reveal>
@@ -149,7 +150,7 @@ export default function HomePage() {
             {services.map((service, i) => (
               <Reveal key={service.title} className="svc-card" delay={i * 0.1}>
                 <div className="svc-media">
-                  <Image
+                  <Photo
                     src={service.image}
                     alt={service.title}
                     fill
@@ -171,7 +172,7 @@ export default function HomePage() {
       {/* RESULTAAT */}
       <section className="band band--ink" id="resultaat">
         <div className="wrap">
-          <Reveal className="section-head">
+          <Reveal stagger className="section-head">
             <span className="eyebrow">Resultaat</span>
             <h2 className="h2">Voor en na</h2>
           </Reveal>
@@ -190,7 +191,7 @@ export default function HomePage() {
       <section className="band band--cream" id="over-mij">
         <div className="wrap about-grid">
           <Reveal className="about-figure">
-            <Image
+            <Photo
               src="/images/ramen wassen.jpg"
               alt="Maarten Hendrickx aan het werk"
               fill
@@ -199,13 +200,13 @@ export default function HomePage() {
             />
           </Reveal>
 
-          <Reveal className="about-text" delay={0.12}>
+          <Reveal stagger className="about-text">
             <span className="eyebrow">Over mij</span>
             <h2 className="h2">Maarten Hendrickx</h2>
             <p className="body-text">
-              MH Cleaning is een lokale ramenwasser uit Lommel. Sinds 2019 zorg
-              ik voor blinkende ramen bij particulieren en bedrijven in Lommel
-              en de directe omgeving.
+              Ik ben zelfstandig ramenwasser en werk onder de naam MH Cleaning.
+              Sinds 2019 zorg ik voor blinkende ramen bij particulieren en
+              bedrijven in Lommel en de directe omgeving.
             </p>
             <p className="body-text">
               Ik werk met vaste klanten die ik op regelmatige basis bezoek. Zo
@@ -223,7 +224,7 @@ export default function HomePage() {
       {/* CTA */}
       <section className="band band--sand cta-band">
         <div className="wrap">
-          <Reveal>
+          <Reveal stagger>
             <h2 className="h2">Een vaste ramenwasser in Lommel?</h2>
             <p className="lede">
               Vul het formulier in en voeg een paar foto&apos;s van uw woning

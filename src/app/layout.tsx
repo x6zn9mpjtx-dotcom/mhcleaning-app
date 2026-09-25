@@ -70,7 +70,8 @@ export default function RootLayout({
               <div className="footer-col">
                 <h4>Onderneming</h4>
                 <p>MH Cleaning — Maarten Hendrickx</p>
-                <p>Lommel</p>
+                <p>Klotstraat 16, 3920 Lommel</p>
+                <p>Ondernemingsnr. BE 0717.970.343</p>
               </div>
             </div>
 
@@ -78,6 +79,7 @@ export default function RootLayout({
               <span>© {new Date().getFullYear()} MH Cleaning</span>
               <div className="footer-social">
                 <Link href="/faq">Veelgestelde vragen</Link>
+                <Link href="/privacy">Privacyverklaring</Link>
                 <Link href="/contact">Offerte aanvragen</Link>
               </div>
             </div>

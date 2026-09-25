@@ -157,7 +157,7 @@ export default function ContactPage() {
     <>
       <section className="page-head">
         <div className="wrap">
-          <Reveal>
+          <Reveal stagger>
             <span className="eyebrow">Offerte aanvragen</span>
             <h1 className="display">Vrijblijvend en persoonlijk</h1>
             <p className="lede">
