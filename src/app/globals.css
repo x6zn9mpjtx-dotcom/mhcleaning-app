@@ -115,6 +115,11 @@ ul {
   padding: var(--band-y) 0;
 }
 
+/* Ankers niet onder de vaste header laten verdwijnen */
+section[id] {
+  scroll-margin-top: 90px;
+}
+
 .band--ink {
   background: var(--ink);
   color: var(--on-ink);
@@ -277,18 +282,13 @@ ul {
   flex-shrink: 0;
 }
 
-.brand-mark {
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.brand-name {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  letter-spacing: 0.01em;
-  color: var(--on-ink);
+/* Liggend logo in header en footer: de naam staat al in het beeld zelf.
+   Het bronbestand is een JPG met zwarte achtergrond. Met 'screen' verdwijnt
+   dat zwart in de donkere balk, zodat enkel het gouden logo overblijft. */
+.brand-logo {
+  width: auto;
+  height: 44px;
+  mix-blend-mode: screen;
 }
 
 .nav-links {
@@ -375,11 +375,18 @@ ul {
   margin-bottom: 1.75rem;
 }
 
+.hero-hint {
+  margin-top: 1.5rem;
+  max-width: 44ch;
+  font-size: 0.9rem;
+  color: var(--on-ink-soft);
+}
+
 .hero-note {
   display: flex;
   align-items: center;
   gap: 0.9rem;
-  margin-top: 2.5rem;
+  margin-top: 1.25rem;
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   color: var(--on-ink-soft);
@@ -393,18 +400,17 @@ ul {
   flex-shrink: 0;
 }
 
+/* Geen kader of vlak: het logo zweeft vrij op de donkere hero */
 .hero-figure {
   position: relative;
   aspect-ratio: 1 / 1;
-  border: 1px solid var(--line-ink);
-  background: #000;
-  overflow: hidden;
 }
 
 .hero-figure img {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  mix-blend-mode: screen;
 }
 
 /* Kleine hero voor subpagina's */
@@ -462,7 +468,7 @@ ul {
 /* ── Diensten ────────────────────────────────────────────────────────── */
 .svc-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
 }
 
@@ -538,23 +544,158 @@ ul {
   border: 1px solid var(--line-ink);
 }
 
-/* ── Voor en na ──────────────────────────────────────────────────────── */
-.ba-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(1.25rem, 3vw, 2rem);
+/* ── Voor en na (schuifbalk) ─────────────────────────────────────────── */
+.ba {
+  margin: 0;
 }
 
-.ba-item .photo-ph {
-  aspect-ratio: 4 / 3;
+/* De foto's zijn staand, dus het kader volgt die verhouding en blijft
+   begrensd in breedte zodat het beeld niet het hele scherm inneemt. */
+.ba-frame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  max-width: 540px;
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid var(--line-ink);
+  user-select: none;
 }
 
-.ba-label {
-  margin-top: 0.9rem;
-  font-size: 0.68rem;
-  letter-spacing: 0.22em;
+.ba-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.ba-layer img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Placeholders duidelijk verschillend houden, anders lijkt de schuif stuk.
+   De tekst staat bovenaan zodat ze niet achter de greep verdwijnt. */
+.ba-fill {
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 2rem;
+  background: #2e2e2e;
+}
+
+.ba-fill--before {
+  justify-content: flex-start;
+  background: #121212;
+}
+
+.ba-tag {
+  position: absolute;
+  bottom: 1rem;
+  z-index: 3;
+  padding: 0.4rem 0.9rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--on-ink);
+  background: rgba(12, 12, 12, 0.72);
+  pointer-events: none;
+}
+
+.ba-tag--left {
+  left: 1rem;
+}
+
+.ba-tag--right {
+  right: 1rem;
+}
+
+.ba-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 4;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--gold);
+  pointer-events: none;
+}
+
+.ba-grip {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 44px;
+  height: 44px;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--gold);
+  border-radius: 50%;
+  background: rgba(12, 12, 12, 0.6);
+  backdrop-filter: blur(2px);
+}
+
+.ba-grip::before,
+.ba-grip::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+  transform: translateY(-50%);
+}
+
+.ba-grip::before {
+  left: 10px;
+  border-right: 7px solid var(--gold);
+}
+
+.ba-grip::after {
+  right: 10px;
+  border-left: 7px solid var(--gold);
+}
+
+/* Onzichtbare regelaar over het hele beeld: muis, vinger en toetsenbord */
+.ba-range {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+
+.ba-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 48px;
+  height: 100vh;
+  cursor: ew-resize;
+}
+
+.ba-range::-moz-range-thumb {
+  width: 48px;
+  height: 100vh;
+  border: none;
+  cursor: ew-resize;
+}
+
+.ba-range:focus-visible + .ba-divider,
+.ba-frame:has(.ba-range:focus-visible) .ba-divider {
+  box-shadow: 0 0 0 2px var(--gold-bright);
+}
+
+.ba-caption {
+  max-width: 540px;
+  margin: 1rem auto 0;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--on-ink-soft);
 }
 
 /* ── Over mij ────────────────────────────────────────────────────────── */
@@ -566,7 +707,9 @@ ul {
 }
 
 .about-figure {
+  position: relative;
   aspect-ratio: 3 / 4;
+  overflow: hidden;
 }
 
 .about-text > * + * {
@@ -933,6 +1076,14 @@ ul {
   transform: none;
 }
 
+/* Zonder JavaScript zet niets .is-visible, dus tonen we alles meteen */
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ── Responsive ──────────────────────────────────────────────────────── */
 @media (max-width: 960px) {
   .pillars,
@@ -965,6 +1116,12 @@ ul {
   }
 
   .nav-cta {
+    display: none;
+  }
+
+  /* Op gsm staat het logo al in de header; een tweede keer groot eronder
+     kost een derde scherm en voegt niets toe. */
+  .hero-figure {
     display: none;
   }
 

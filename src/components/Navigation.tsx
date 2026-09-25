@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
 const links = [
-  { href: '/diensten', label: 'Diensten' },
+  { href: '/#diensten', label: 'Diensten' },
   { href: '/#resultaat', label: 'Resultaat' },
   { href: '/#over-mij', label: 'Over mij' },
   { href: '/faq', label: 'FAQ' },
@@ -35,16 +35,15 @@ export default function Navigation() {
 
   return (
     <nav className="wrap nav">
-      <Link href="/" className="brand" onClick={closeMenu}>
+      <Link href="/" className="brand" onClick={closeMenu} aria-label="MH Cleaning, naar de homepage">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src="/images/logo goud rond.jpg"
-          alt=""
-          className="brand-mark"
-          width={38}
-          height={38}
+          src="/images/logo website.jpg"
+          alt="MH Cleaning"
+          className="brand-logo"
+          width={1280}
+          height={426}
         />
-        <span className="brand-name">MH Cleaning</span>
       </Link>
 
       <button

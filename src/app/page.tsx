@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
+import BeforeAfter from '@/components/BeforeAfter';
 
 const pillars = [
   {
@@ -36,23 +37,21 @@ const pillars = [
 const services = [
   {
     title: 'Ramen binnen & buiten',
-    text: 'Traditioneel gewassen met wisser en ladder, streepvrij afgewerkt.',
-    image: '/images/ramen wassen.jpg',
+    text: 'Traditioneel gewassen met wisser en ladder, streepvrij afgewerkt. Kaders en vensterbanken worden meegenomen, zodat het geheel er verzorgd uitziet.',
+    image: '/images/ramen wassen1.jpg',
+    detail: 'Streepvrij · Binnen en buiten · Alle raamtypes',
   },
   {
     title: "Veranda's & afdaken",
-    text: 'Glas en profielen grondig gereinigd, met de nodige voorzichtigheid.',
+    text: 'Glas en profielen grondig gereinigd, met de nodige voorzichtigheid. Ook de moeilijk bereikbare delen worden meegenomen.',
     image: '/images/afdak1.jpg',
+    detail: 'Veilig op hoogte · Glas en profielen · Langere levensduur',
   },
   {
     title: 'Zonnepanelen',
-    text: 'Zacht gereinigd, zodat ze weer volop zonlicht opvangen.',
+    text: 'Zacht gereinigd zonder krassen, zodat uw panelen weer volop zonlicht opvangen en hun rendement behouden.',
     image: '/images/zon1.jpg',
-  },
-  {
-    title: 'Rolluiken',
-    text: 'Lamellen en geleiders proper, in dezelfde beurt als uw ramen.',
-    image: null,
+    detail: 'Hoger rendement · Zacht gereinigd · Periodiek onderhoud',
   },
 ];
 
@@ -86,6 +85,10 @@ export default function HomePage() {
                 WhatsApp
               </a>
             </div>
+            <p className="hero-hint">
+              Stuur een paar foto&apos;s van uw woning mee, dan krijgt u sneller
+              een correcte prijs.
+            </p>
             <p className="hero-note">
               Beperkt aantal nieuwe vaste klanten per seizoen
             </p>
@@ -93,7 +96,7 @@ export default function HomePage() {
 
           <Reveal delay={0.15} className="hero-figure">
             <Image
-              src="/images/logo goud rond.jpg"
+              src="/images/logo goud vierkant.jpg"
               alt="MH Cleaning"
               width={560}
               height={560}
@@ -135,7 +138,7 @@ export default function HomePage() {
       </section>
 
       {/* DIENSTEN */}
-      <section className="band band--sand">
+      <section className="band band--sand" id="diensten">
         <div className="wrap">
           <Reveal className="section-head">
             <span className="eyebrow">Diensten</span>
@@ -146,23 +149,18 @@ export default function HomePage() {
             {services.map((service, i) => (
               <Reveal key={service.title} className="svc-card" delay={i * 0.1}>
                 <div className="svc-media">
-                  {service.image ? (
-                    <Image
-                      src={service.image}
-                      alt={service.title}
-                      fill
-                      sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 25vw"
-                      style={{ objectFit: 'cover' }}
-                    />
-                  ) : (
-                    <div className="photo-ph" style={{ height: '100%' }}>
-                      Foto volgt
-                    </div>
-                  )}
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 33vw"
+                    style={{ objectFit: 'cover' }}
+                  />
                 </div>
                 <div className="svc-body">
                   <h3>{service.title}</h3>
                   <p>{service.text}</p>
+                  <p className="svc-detail">{service.detail}</p>
                 </div>
               </Reveal>
             ))}
@@ -178,23 +176,28 @@ export default function HomePage() {
             <h2 className="h2">Voor en na</h2>
           </Reveal>
 
-          <div className="ba-grid">
-            <Reveal className="ba-item">
-              <div className="photo-ph">Foto voor</div>
-              <p className="ba-label">Voor</p>
-            </Reveal>
-            <Reveal className="ba-item" delay={0.12}>
-              <div className="photo-ph">Foto na</div>
-              <p className="ba-label">Na</p>
-            </Reveal>
-          </div>
+          <Reveal>
+            <BeforeAfter
+              before="/images/ramen wassen voor.jpg"
+              after="/images/ramen wassen na.jpg"
+              alt="Hetzelfde raam voor en na het wassen"
+            />
+          </Reveal>
         </div>
       </section>
 
       {/* OVER MIJ */}
       <section className="band band--cream" id="over-mij">
         <div className="wrap about-grid">
-          <Reveal className="photo-ph about-figure">Foto Maarten aan het werk</Reveal>
+          <Reveal className="about-figure">
+            <Image
+              src="/images/ramen wassen.jpg"
+              alt="Maarten Hendrickx aan het werk"
+              fill
+              sizes="(max-width: 960px) 100vw, 420px"
+              style={{ objectFit: 'cover' }}
+            />
+          </Reveal>
 
           <Reveal className="about-text" delay={0.12}>
             <span className="eyebrow">Over mij</span>
@@ -223,8 +226,9 @@ export default function HomePage() {
           <Reveal>
             <h2 className="h2">Een vaste ramenwasser in Lommel?</h2>
             <p className="lede">
-              Ik neem nog een beperkt aantal vaste klanten aan. Stuur gerust een
-              bericht, dan bekijken we samen wat bij uw woning past.
+              Vul het formulier in en voeg een paar foto&apos;s van uw woning
+              toe. Zo zie ik meteen waar het om gaat en krijgt u een correcte
+              prijs, zonder dat u iets hoeft op te meten.
             </p>
             <div className="btn-row">
               <Link href="/contact" className="btn btn--gold">

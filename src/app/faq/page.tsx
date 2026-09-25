@@ -7,21 +7,27 @@ import Reveal from '@/components/Reveal';
 const faqs = [
   {
     id: 1,
-    question: 'Hoe vaak moeten ramen gereinigd worden?',
+    question: 'Hoe vaak laat u uw ramen best wassen?',
     answer:
-      'Voor de buitenzijde raad ik elke 2 maanden aan, de binnenzijde elke 4 maanden. Dat ritme passen we volledig aan uw voorkeur aan: in de zomer bijvoorbeeld om de 6 weken, in de winter om de 10 weken. Ook voor een specifieke datum, zoals voor een feest of evenement, maak ik graag een afspraak.',
+      'Voor de buitenkant raad ik om de twee maanden aan, voor de binnenkant om de vier maanden. Dat ritme leggen we samen vast: in de zomer mag het gerust wat korter, in de winter wat langer. Heeft u een vaste datum in gedachten, bijvoorbeeld voor een feest, dan plan ik dat er graag tussen.',
   },
   {
     id: 2,
-    question: 'Met welke frequentie dienen zonnepanelen gereinigd te worden?',
+    question: 'Hoe vaak moeten zonnepanelen gereinigd worden?',
     answer:
-      'Gemiddeld eens per 3 jaar. Zo behouden uw panelen hun rendement. De juiste frequentie hangt af van uw locatie, de omgeving en hoeveel stof er neerslaat. Ik bekijk dat graag samen met u.',
+      'Ongeveer om de drie jaar. Stof en aanslag kosten rendement, en een reiniging verdient zichzelf doorgaans terug. Hoe snel panelen vuil worden hangt af van uw omgeving: dicht bij een drukke weg of veel bomen gaat dat sneller. Ik bekijk ter plaatse wat in uw situatie zinvol is.',
   },
   {
     id: 3,
-    question: 'Hoe snel krijg ik antwoord op mijn offerteaanvraag?',
+    question: 'Moet u thuis zijn als ik langskom?',
     answer:
-      'U krijgt altijd binnen 8 uur een reactie, via e-mail, telefoon of WhatsApp, wat u het beste uitkomt. Meestal is dat een stuk sneller, maar 8 uur is wat ik garandeer.',
+      'Dat hoeft niet, zolang ik aan alle ramen kan. De buitenkant doe ik dus gerust terwijl u weg bent. Toch is het prettig als er iemand thuis is, zeker de eerste keer — dan overlopen we samen wat er precies moet gebeuren.',
+  },
+  {
+    id: 4,
+    question: 'Hoe snel krijgt u antwoord op uw aanvraag?',
+    answer:
+      'Binnen de acht uur, via e-mail, telefoon of WhatsApp — wat u het beste uitkomt. Meestal hoort u sneller van mij.',
   },
 ];
 
@@ -36,7 +42,7 @@ export default function FAQPage() {
             <span className="eyebrow">Veelgestelde vragen</span>
             <h1 className="display">Goed om te weten</h1>
             <p className="lede">
-              De vragen die ik het vaakst krijg, met een eerlijk antwoord.
+              Wat klanten mij het vaakst vragen, kort en duidelijk beantwoord.
             </p>
           </Reveal>
         </div>
@@ -78,7 +84,8 @@ export default function FAQPage() {
           <Reveal>
             <h2 className="h2">Staat uw vraag er niet bij?</h2>
             <p className="lede">
-              Stuur gerust een bericht. U krijgt binnen 8 uur een antwoord.
+              Stuur gerust een bericht. U krijgt binnen de acht uur een
+              antwoord.
             </p>
             <div className="btn-row">
               <Link href="/contact" className="btn btn--gold">

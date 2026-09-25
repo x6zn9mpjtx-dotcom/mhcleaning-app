@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import './globals.css';
 import Navigation from '@/components/Navigation';
 
@@ -41,13 +42,12 @@ export default function RootLayout({
                 <div className="brand">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
-                    src="/images/logo goud rond.jpg"
-                    alt=""
-                    className="brand-mark"
-                    width={38}
-                    height={38}
+                    src="/images/logo website.jpg"
+                    alt="MH Cleaning"
+                    className="brand-logo"
+                    width={1280}
+                    height={426}
                   />
-                  <span className="brand-name">MH Cleaning</span>
                 </div>
                 <p className="footer-tag">
                   Ramenwasser in Lommel en omgeving. Vaste klanten, vaste
@@ -77,8 +77,8 @@ export default function RootLayout({
             <div className="footer-bottom">
               <span>© {new Date().getFullYear()} MH Cleaning</span>
               <div className="footer-social">
-                <a href="/faq">Veelgestelde vragen</a>
-                <a href="/contact">Offerte aanvragen</a>
+                <Link href="/faq">Veelgestelde vragen</Link>
+                <Link href="/contact">Offerte aanvragen</Link>
               </div>
             </div>
           </div>
