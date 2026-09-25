@@ -1,100 +1,101 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
+import Reveal from '@/components/Reveal';
 
 const faqs = [
   {
     id: 1,
     question: 'Hoe vaak moeten ramen gereinigd worden?',
-    answer: 'We raden aan om de buitenzijde van uw ramen elke 2 maanden te laten reinigen voor optimaal onderhoud. De binnenzijde kan comfortabel elke 4 maanden gereinigd worden. Uiteraard kan dit volledig naar uw voorkeur worden aangepast. Bijvoorbeeld in het zomerseizoen elke 6 weken voor de buitenzijde, en in de winter om de 10 weken. Ook voor specifieke data (bijvoorbeeld voor een feestje of evenement) maken we graag afspraken.',
+    answer:
+      'Voor de buitenzijde raad ik elke 2 maanden aan, de binnenzijde elke 4 maanden. Dat ritme passen we volledig aan uw voorkeur aan: in de zomer bijvoorbeeld om de 6 weken, in de winter om de 10 weken. Ook voor een specifieke datum, zoals voor een feest of evenement, maak ik graag een afspraak.',
   },
   {
     id: 2,
     question: 'Met welke frequentie dienen zonnepanelen gereinigd te worden?',
-    answer: 'Zonnepanelen moeten gemiddeld eens per 3 jaar professioneel worden gereinigd. Dit zorgt ervoor dat uw panelen optimaal functioneren en maximale energieopbrengst leveren. De frequentie kan variëren afhankelijk van uw locatie, klimaat en hoeveelheid stofafzetting. We adviseren u graag op basis van uw specifieke situatie.',
+    answer:
+      'Gemiddeld eens per 3 jaar. Zo behouden uw panelen hun rendement. De juiste frequentie hangt af van uw locatie, de omgeving en hoeveel stof er neerslaat. Ik bekijk dat graag samen met u.',
   },
   {
     id: 3,
-    question: 'Hoe snel ontvangt u een antwoord op mijn offerte aanvraag?',
-    answer: 'Klantenservice is voor ons erg belangrijk. U ontvangt altijd binnen 8 uur een reactie op uw offerte aanvraag. Dit kan via e-mail, telefoon of WhatsApp, al naar gelang uw voorkeur. We streven ernaar om dit nog sneller te doen, maar 8 uur is onze garantie.',
+    question: 'Hoe snel krijg ik antwoord op mijn offerteaanvraag?',
+    answer:
+      'U krijgt altijd binnen 8 uur een reactie, via e-mail, telefoon of WhatsApp, wat u het beste uitkomt. Meestal is dat een stuk sneller, maar 8 uur is wat ik garandeer.',
   },
 ];
 
 export default function FAQPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
 
-  const toggleFAQ = (id: number) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
-
   return (
-    <div>
-      {/* FAQ HERO */}
-      <section className="hero">
-        <div className="container">
-          <h1 className="hero-title">
-            Veelgestelde
-            <br />
-            <span className="hero-highlight">Vragen</span>
-          </h1>
-          <p className="hero-sub">
-            Antwoorden op de meest gestelde vragen over onze diensten
-          </p>
+    <>
+      <section className="page-head">
+        <div className="wrap">
+          <Reveal>
+            <span className="eyebrow">Veelgestelde vragen</span>
+            <h1 className="display">Goed om te weten</h1>
+            <p className="lede">
+              De vragen die ik het vaakst krijg, met een eerlijk antwoord.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* FAQ CONTENT */}
-      <section className="section section-drops">
-        <div className="container">
-          <div className="faq-container">
-            {faqs.map((faq) => (
-              <div key={faq.id} className="faq-item">
-                <button
-                  className="faq-question"
-                  onClick={() => toggleFAQ(faq.id)}
-                >
-                  <span>{faq.question}</span>
-                  <span className={`faq-icon ${expandedId === faq.id ? 'open' : ''}`}>
-                    +
-                  </span>
-                </button>
-                {expandedId === faq.id && (
-                  <div className="faq-answer">
-                    <p>{faq.answer}</p>
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-
-          {/* EXTRA VRAAG SECTIE */}
-          <div className="faq-extra">
-            <h3>Kan uw vraag hier niet gevonden worden?</h3>
-            <p>Neem gerust contact met ons op. We helpen u graag!</p>
-            <a href="/contact" className="btn-primary">
-              Stuur uw vraag
-            </a>
+      <section className="band band--cream">
+        <div className="wrap wrap--narrow">
+          <div className="faq-list">
+            {faqs.map((faq) => {
+              const open = expandedId === faq.id;
+              return (
+                <div key={faq.id} className="faq-item">
+                  <button
+                    className="faq-q"
+                    onClick={() => setExpandedId(open ? null : faq.id)}
+                    aria-expanded={open}
+                    aria-controls={`faq-antwoord-${faq.id}`}
+                  >
+                    <span>{faq.question}</span>
+                    <span
+                      className={`faq-sign ${open ? 'open' : ''}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  {open && (
+                    <div className="faq-a" id={`faq-antwoord-${faq.id}`}>
+                      {faq.answer}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="cta-section">
-        <div className="container">
-          <h2 className="cta-title">Klaar voor een offerte?</h2>
-          <p className="cta-text">
-            Neem contact met ons op voor een vrijblijvende offerte
-          </p>
-          <div className="cta-buttons">
-            <a href="/contact" className="btn-primary">
-              Offerte aanvragen
-            </a>
-            <a href="https://wa.me/32495783110" className="btn-outline-gold">
-              WhatsApp sturen
-            </a>
-          </div>
+      <section className="band band--sand cta-band">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="h2">Staat uw vraag er niet bij?</h2>
+            <p className="lede">
+              Stuur gerust een bericht. U krijgt binnen 8 uur een antwoord.
+            </p>
+            <div className="btn-row">
+              <Link href="/contact" className="btn btn--gold">
+                Stel uw vraag
+              </Link>
+              <a
+                href="https://wa.me/32495783110"
+                className="btn btn--ink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
-    </div>
+    </>
   );
 }

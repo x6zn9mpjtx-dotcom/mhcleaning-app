@@ -3,16 +3,17 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 
+const links = [
+  { href: '/diensten', label: 'Diensten' },
+  { href: '/#resultaat', label: 'Resultaat' },
+  { href: '/#over-mij', label: 'Over mij' },
+  { href: '/faq', label: 'FAQ' },
+];
+
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
+  const closeMenu = () => setIsOpen(false);
 
   // Menu sluiten met Escape en de pagina eronder niet laten meescrollen
   useEffect(() => {
@@ -33,34 +34,48 @@ export default function Navigation() {
   }, [isOpen]);
 
   return (
-    <nav className="container nav">
-      <Link href="/" className="logo" onClick={closeMenu}>
-        MH Cleaning
+    <nav className="wrap nav">
+      <Link href="/" className="brand" onClick={closeMenu}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/logo goud rond.jpg"
+          alt=""
+          className="brand-mark"
+          width={38}
+          height={38}
+        />
+        <span className="brand-name">MH Cleaning</span>
       </Link>
 
-      {/* Hamburger button - alleen zichtbaar op mobile */}
       <button
         className="hamburger"
-        onClick={toggleMenu}
+        onClick={() => setIsOpen(!isOpen)}
         aria-label={isOpen ? 'Menu sluiten' : 'Menu openen'}
         aria-expanded={isOpen}
         aria-controls="hoofdmenu"
       >
-        <span className={`hamburger-line ${isOpen ? 'open' : ''}`}></span>
-        <span className={`hamburger-line ${isOpen ? 'open' : ''}`}></span>
-        <span className={`hamburger-line ${isOpen ? 'open' : ''}`}></span>
+        <span className={`hamburger-line ${isOpen ? 'open' : ''}`} />
+        <span className={`hamburger-line ${isOpen ? 'open' : ''}`} />
+        <span className={`hamburger-line ${isOpen ? 'open' : ''}`} />
       </button>
 
-      {/* Navigation links */}
       <div id="hoofdmenu" className={`nav-links ${isOpen ? 'open' : ''}`}>
-        <Link href="/" onClick={closeMenu}>Home</Link>
-        <Link href="/diensten" onClick={closeMenu}>Diensten</Link>
-        <Link href="/faq" onClick={closeMenu}>FAQ</Link>
-        <Link href="/contact" onClick={closeMenu}>Contact</Link>
+        {links.map((link) => (
+          <Link key={link.href} href={link.href} onClick={closeMenu}>
+            {link.label}
+          </Link>
+        ))}
+        {/* Alleen in het mobiele menu: op desktop staat de gouden knop ernaast */}
+        <Link href="/contact" className="nav-link--mobile" onClick={closeMenu}>
+          Offerte aanvragen
+        </Link>
       </div>
 
-      {/* Overlay voor mobile menu */}
-      {isOpen && <div className="nav-overlay" onClick={closeMenu}></div>}
+      <Link href="/contact" className="btn btn--gold nav-cta">
+        Offerte aanvragen
+      </Link>
+
+      {isOpen && <div className="nav-overlay" onClick={closeMenu} />}
     </nav>
   );
 }

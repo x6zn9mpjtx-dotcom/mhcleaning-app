@@ -1,90 +1,115 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import Reveal from '@/components/Reveal';
+
+export const metadata = {
+  title: 'Diensten – MH Cleaning',
+  description:
+    'Ramen, veranda’s, afdaken, zonnepanelen en rolluiken. Vakkundig gereinigd in Lommel en omgeving.',
+};
 
 const services = [
   {
-    id: 1,
-    title: 'Reinigen van Ramen',
-    description: 'Professionele ramenreiniging voor huizen en bedrijven. We zorgen voor glashelder en streepvrij resultaat. Met speciale aandacht voor zowel binnen- als buitenzijden.',
+    title: 'Ramen binnen & buiten',
+    description:
+      'Traditioneel gewassen met wisser en ladder, streepvrij afgewerkt. Kaders en vensterbanken worden meegenomen, zodat het geheel er verzorgd uitziet.',
     image: '/images/ramen wassen.jpg',
-    details: 'Streepvrij schoon • Zowel binnen als buiten • Voor alle raamtypen',
+    detail: 'Streepvrij · Binnen en buiten · Alle raamtypes',
   },
   {
-    id: 2,
-    title: 'Reinigen van Zonnepanelen',
-    description: 'Zonnepanelen worden regelmatig vuil. Wij zorgen ervoor dat jouw panels optimaal werken en meer energie opbrengen door professionele reiniging.',
-    image: '/images/zon1.jpg',
-    details: 'Verhoogde efficiency • Veilig en professioneel • Regelmatig onderhoud',
-  },
-  {
-    id: 3,
-    title: 'Reinigen van Afdaken',
-    description: 'Afdaken en overkappingen verdienen goed onderhoud. Wij reinigen deze oppervlakken professioneel, voorzichtig en effectief.',
+    title: "Veranda's & afdaken",
+    description:
+      'Glas en profielen grondig gereinigd, met de nodige voorzichtigheid. Ook de moeilijk bereikbare delen worden meegenomen.',
     image: '/images/afdak1.jpg',
-     details: 'Voorkomen van vervuiling • Veilig werken op hoogte • Langere levensduur',
+    detail: 'Veilig op hoogte · Glas en profielen · Langere levensduur',
+  },
+  {
+    title: 'Zonnepanelen',
+    description:
+      'Zacht gereinigd zonder krassen, zodat uw panelen weer volop zonlicht opvangen en hun rendement behouden.',
+    image: '/images/zon1.jpg',
+    detail: 'Hoger rendement · Zacht gereinigd · Periodiek onderhoud',
+  },
+  {
+    title: 'Rolluiken',
+    description:
+      'Lamellen en geleiders proper, in dezelfde beurt als uw ramen. Zo blijft alles gelijkmatig onderhouden.',
+    image: null,
+    detail: 'Lamellen en geleiders · Samen met de ramen',
   },
 ];
 
-export default function DientenPage() {
-
+export default function DienstenPage() {
   return (
-    <div>
-      {/* DIENSTEN HERO */}
-      <section className="hero">
-        <div className="container">
-          <h1 className="hero-title">
-            Onze
-            <br />
-            <span className="hero-highlight">Diensten</span>
-          </h1>
-          <p className="hero-sub">
-            Professioneel schoonmaakwerk voor alle soorten glazen oppervlakken
-          </p>
+    <>
+      <section className="page-head">
+        <div className="wrap">
+          <Reveal>
+            <span className="eyebrow">Diensten</span>
+            <h1 className="display">Waar ik voor zorg</h1>
+            <p className="lede">
+              Van ramen tot zonnepanelen. Alles wat glas is rond uw woning of
+              bedrijf, vakkundig onderhouden.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* DIENSTEN GRID */}
-      <section className="section section-drops">
-        <div className="container">
-          <div className="services-grid">
-            {services.map((service) => (
-              <div key={service.id} className="service-card">
-                <div className="service-image-wrapper">
-                  <Image
-                    src={service.image}
-                    alt={service.title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
+      <section className="band band--sand">
+        <div className="wrap">
+          <div className="svc-grid">
+            {services.map((service, i) => (
+              <Reveal key={service.title} className="svc-card" delay={i * 0.1}>
+                <div className="svc-media">
+                  {service.image ? (
+                    <Image
+                      src={service.image}
+                      alt={service.title}
+                      fill
+                      sizes="(max-width: 620px) 100vw, (max-width: 960px) 50vw, 25vw"
+                      style={{ objectFit: 'cover' }}
+                    />
+                  ) : (
+                    <div className="photo-ph" style={{ height: '100%' }}>
+                      Foto volgt
+                    </div>
+                  )}
                 </div>
-
-                <div className="service-content">
-                  <h3 className="service-title">{service.title}</h3>
-                  <p className="service-description">{service.description}</p>
-                  <p className="service-details">✓ {service.details}</p>
+                <div className="svc-body">
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                  <p className="svc-detail">{service.detail}</p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="cta-section">
-        <div className="container">
-          <h2 className="cta-title">Klaar voor een offerte?</h2>
-          <p className="cta-text">
-            Neem contact met ons op voor een vrijblijvende offerte
-          </p>
-          <div className="cta-buttons">
-            <a href="/contact" className="btn-primary">
-              Offerte aanvragen
-            </a>
-            <a href="https://wa.me/32495783110" className="btn-outline-gold">
-              WhatsApp sturen
-            </a>
-          </div>
+      <section className="band band--cream cta-band">
+        <div className="wrap">
+          <Reveal>
+            <h2 className="h2">Benieuwd wat het voor u kost?</h2>
+            <p className="lede">
+              Stuur een bericht met een paar foto&apos;s van uw woning, dan
+              krijgt u een vrijblijvende prijs.
+            </p>
+            <div className="btn-row">
+              <Link href="/contact" className="btn btn--gold">
+                Vraag een offerte
+              </Link>
+              <a
+                href="https://wa.me/32495783110"
+                className="btn btn--ink"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
+            </div>
+          </Reveal>
         </div>
       </section>
-    </div>
+    </>
   );
 }

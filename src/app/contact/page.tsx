@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Reveal from '@/components/Reveal';
 
 // Telefoonfoto's zijn al snel 5 MB per stuk. We verkleinen ze in de browser,
 // anders komt de aanvraag nooit door de limiet van de server heen.
@@ -66,12 +67,11 @@ export default function ContactPage() {
   const [error, setError] = useState('');
   const [honeypot, setHoneypot] = useState('');
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,13 +81,11 @@ export default function ContactPage() {
     const newFiles = Array.from(files);
     e.target.value = '';
 
-    // Max 10 foto's controle
     if (images.length + newFiles.length > MAX_IMAGES) {
-      setError(`Je kunt maximum ${MAX_IMAGES} foto's uploaden`);
+      setError(`U kunt maximum ${MAX_IMAGES} foto's uploaden`);
       return;
     }
 
-    // Controleer bestandstype
     const validFiles = newFiles.filter((file) => file.type.startsWith('image/'));
     if (validFiles.length !== newFiles.length) {
       setError('Alleen afbeeldingen kunnen geüpload worden');
@@ -119,7 +117,6 @@ export default function ContactPage() {
     setError('');
     setSending(true);
 
-    // Maak een FormData object met de form gegevens en foto's
     const submitData = new FormData();
     submitData.append('name', formData.name);
     submitData.append('email', formData.email);
@@ -127,7 +124,6 @@ export default function ContactPage() {
     submitData.append('message', formData.message);
     submitData.append('website', honeypot);
 
-    // Voeg foto's toe
     images.forEach((image, index) => {
       submitData.append(`image_${index}`, image);
     });
@@ -158,26 +154,24 @@ export default function ContactPage() {
   };
 
   return (
-    <div>
-      {/* CONTACT HERO */}
-      <section className="hero">
-        <div className="container">
-          <h1 className="hero-title">
-            Vrijblijvende
-            <br />
-            <span className="hero-highlight">Offerte</span>
-          </h1>
-          <p className="hero-sub">
-            Vul het formulier in en we nemen zo snel mogelijk contact met je op
-          </p>
+    <>
+      <section className="page-head">
+        <div className="wrap">
+          <Reveal>
+            <span className="eyebrow">Offerte aanvragen</span>
+            <h1 className="display">Vrijblijvend en persoonlijk</h1>
+            <p className="lede">
+              Vul het formulier in en u krijgt binnen 8 uur een antwoord. Een
+              paar foto&apos;s van uw woning helpen mij aan een correcte prijs.
+            </p>
+          </Reveal>
         </div>
       </section>
 
-      {/* CONTACT FORMULIER */}
-      <section className="section section-drops">
-        <div className="container">
-          <div className="contact-form-wrapper">
-            <form onSubmit={handleSubmit} className="contact-form">
+      <section className="band band--cream">
+        <div className="wrap contact-layout">
+          <Reveal className="form-card">
+            <form onSubmit={handleSubmit}>
               {/* Honeypot tegen spambots: onzichtbaar voor bezoekers */}
               <input
                 type="text"
@@ -190,7 +184,7 @@ export default function ContactPage() {
                 aria-hidden="true"
               />
 
-              <div className="form-group">
+              <div className="field">
                 <label htmlFor="name">Naam *</label>
                 <input
                   type="text"
@@ -199,12 +193,12 @@ export default function ContactPage() {
                   value={formData.name}
                   onChange={handleChange}
                   required
-                  placeholder="Jouw naam"
+                  placeholder="Uw naam"
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="email">Email *</label>
+              <div className="field">
+                <label htmlFor="email">E-mail *</label>
                 <input
                   type="email"
                   id="email"
@@ -212,11 +206,11 @@ export default function ContactPage() {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  placeholder="jouw@email.com"
+                  placeholder="uw@email.be"
                 />
               </div>
 
-              <div className="form-group">
+              <div className="field">
                 <label htmlFor="phone">Telefoonnummer *</label>
                 <input
                   type="tel"
@@ -225,11 +219,11 @@ export default function ContactPage() {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  placeholder="+32(0)495 78 31 10"
+                  placeholder="+32 495 78 31 10"
                 />
               </div>
 
-              <div className="form-group">
+              <div className="field">
                 <label htmlFor="message">Bericht *</label>
                 <textarea
                   id="message"
@@ -237,13 +231,13 @@ export default function ContactPage() {
                   value={formData.message}
                   onChange={handleChange}
                   required
-                  placeholder="Beschrijf wat je nodig hebt..."
+                  placeholder="Beschrijf wat u nodig heeft..."
                   rows={5}
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="images">Foto's van je huis (max 10)</label>
+              <div className="field">
+                <label htmlFor="images">Foto&apos;s van uw woning</label>
                 <input
                   type="file"
                   id="images"
@@ -253,64 +247,87 @@ export default function ContactPage() {
                   disabled={images.length >= MAX_IMAGES || processing}
                   className="file-input"
                 />
-                <p className="form-help-text">
+                <p className="field-hint">
                   {processing
                     ? "Foto's worden verwerkt..."
-                    : `Je hebt ${images.length} van ${MAX_IMAGES} foto's toegevoegd`}
+                    : `${images.length} van ${MAX_IMAGES} foto's toegevoegd`}
                 </p>
-              </div>
 
-              {imagePreviews.length > 0 && (
-                <div className="image-previews">
-                  <label>Geüploade foto's:</label>
+                {imagePreviews.length > 0 && (
                   <div className="preview-grid">
                     {imagePreviews.map((preview, index) => (
-                      <div key={index} className="preview-item">
-                        <img src={preview} alt={`Preview ${index + 1}`} />
+                      <div key={preview} className="preview-item">
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={preview} alt={`Foto ${index + 1}`} />
                         <button
                           type="button"
                           onClick={() => removeImage(index)}
                           className="remove-btn"
+                          aria-label={`Foto ${index + 1} verwijderen`}
                         >
                           ✕
                         </button>
                       </div>
                     ))}
                   </div>
-                </div>
-              )}
+                )}
+              </div>
 
-              <button type="submit" className="btn-primary" disabled={sending || processing}>
-                {sending ? 'Versturen...' : 'Offerte aanvragen'}
-              </button>
+              <div className="btn-row">
+                <button
+                  type="submit"
+                  className="btn btn--gold"
+                  disabled={sending || processing}
+                >
+                  {sending ? 'Versturen...' : 'Offerte aanvragen'}
+                </button>
+              </div>
 
               {submitted && (
-                <div className="success-message">
-                  ✓ Bedankt! We nemen snel contact met je op.
+                <div className="form-note form-note--ok">
+                  Bedankt. Uw aanvraag is verstuurd, u hoort snel van mij.
                 </div>
               )}
 
-              {error && <div className="error-message">{error}</div>}
+              {error && <div className="form-note form-note--error">{error}</div>}
             </form>
+          </Reveal>
 
-            <div className="contact-info">
-              <h3>Direct contact</h3>
-              <p>
-                <strong>Telefoon:</strong> <a href="tel:+32495783110">+32(0)495 78 31 10</a>
-              </p>
-              <p>
-                <strong>WhatsApp:</strong> <a href="https://wa.me/32495783110">+32(0)495 78 31 10</a>
-              </p>
-              <p>
-                <strong>Email:</strong> <a href="mailto:info@mhcleaning.be">info@mhcleaning.be</a>
-              </p>
-              <p>
-                <strong>Regio:</strong> Lommel en omgeving
-              </p>
-            </div>
-          </div>
+          <Reveal className="contact-aside" delay={0.12}>
+            <h3>Liever direct contact?</h3>
+            <dl>
+              <div className="contact-row">
+                <dt>Telefoon</dt>
+                <dd>
+                  <a href="tel:+32495783110">+32 495 78 31 10</a>
+                </dd>
+              </div>
+              <div className="contact-row">
+                <dt>WhatsApp</dt>
+                <dd>
+                  <a
+                    href="https://wa.me/32495783110"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    +32 495 78 31 10
+                  </a>
+                </dd>
+              </div>
+              <div className="contact-row">
+                <dt>E-mail</dt>
+                <dd>
+                  <a href="mailto:info@mhcleaning.be">info@mhcleaning.be</a>
+                </dd>
+              </div>
+              <div className="contact-row">
+                <dt>Werkgebied</dt>
+                <dd>Lommel en directe omgeving</dd>
+              </div>
+            </dl>
+          </Reveal>
         </div>
       </section>
-    </div>
+    </>
   );
 }
