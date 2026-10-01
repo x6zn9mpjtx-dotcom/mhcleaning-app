@@ -7,7 +7,7 @@ import BeforeAfter from '@/components/BeforeAfter';
 const pillars = [
   {
     title: 'Oog voor detail',
-    text: 'Kaders, hoeken en randen horen erbij. Streepvrij, ook in tegenlicht.',
+    text: 'Kozijnen, hoeken en randen horen erbij. Streepvrij, ook in tegenlicht.',
     icon: (
       <path d="M1 11S4.5 4.5 11 4.5 21 11 21 11s-3.5 6.5-10 6.5S1 11 1 11Zm10 2.75a2.75 2.75 0 1 0 0-5.5 2.75 2.75 0 0 0 0 5.5Z" />
     ),
@@ -21,7 +21,7 @@ const pillars = [
   },
   {
     title: 'Lokaal sinds 2019',
-    text: 'Ik werk in Lommel en de directe omgeving. Korte afstanden, vaste routes.',
+    text: 'Ik werk enkel in Lommel en de directe omgeving. Korte afstanden, dus snel ter plaatse.',
     icon: (
       <path d="M11 20.5s7.5-6.4 7.5-11.75A7.5 7.5 0 0 0 3.5 8.75C3.5 14.1 11 20.5 11 20.5Zm0-8.75a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
     ),
@@ -38,7 +38,7 @@ const pillars = [
 const services = [
   {
     title: 'Ramen binnen & buiten',
-    text: 'Traditioneel gewassen met de raamwisser, streepvrij afgewerkt. Ook de kaders worden meegenomen, zodat het geheel er verzorgd uitziet.',
+    text: 'Traditioneel gewassen met de raamwisser, streepvrij afgewerkt. Ook de kozijnen worden meegenomen, zodat het geheel er verzorgd uitziet.',
     image: '/images/ramen wassen1.jpg',
     detail: 'Streepvrij · Binnen en buiten · Alle raamtypes',
   },

@@ -50,8 +50,8 @@ export default function RootLayout({
                   />
                 </div>
                 <p className="footer-tag">
-                  Ramenwasser in Lommel en omgeving. Vaste klanten, vaste
-                  routes, persoonlijk opgevolgd.
+                  Ramenwasser in Lommel en omgeving. Vaste klanten, korte
+                  afstanden, persoonlijk opgevolgd.
                 </p>
               </div>
 
