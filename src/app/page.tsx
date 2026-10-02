@@ -1,6 +1,6 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import Reveal from '@/components/Reveal';
+import HeroVideo from '@/components/HeroVideo';
 import Photo from '@/components/Photo';
 import BeforeAfter from '@/components/BeforeAfter';
 
@@ -96,13 +96,7 @@ export default function HomePage() {
           </Reveal>
 
           <Reveal delay={0.15} className="hero-figure">
-            <Image
-              src="/images/logo goud vierkant.jpg"
-              alt="MH Cleaning"
-              width={560}
-              height={560}
-              priority
-            />
+            <HeroVideo />
           </Reveal>
         </div>
       </section>

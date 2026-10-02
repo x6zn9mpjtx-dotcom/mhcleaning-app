@@ -412,17 +412,43 @@ section[id] {
   flex-shrink: 0;
 }
 
-/* Geen kader of vlak: het logo zweeft vrij op de donkere hero */
+/* Geen kader of vlak: het logo zweeft vrij op de donkere hero.
+   De animatie is opgenomen op een zwarte achtergrond; met screen-blending
+   valt dat zwart weg tegen de donkere hero, zodat enkel het goud overblijft. */
 .hero-figure {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 16 / 9;
 }
 
-.hero-figure img {
+/* Video en stilstaand logo liggen op elkaar: het logo dekt de video af tot
+   die echt speelt, zodat er nooit een zwart vlak in beeld staat. */
+.hero-figure img,
+.hero-video {
+  position: absolute;
+  inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
   mix-blend-mode: screen;
+}
+
+/* Het "zwart" van de opname is net iets lichter dan de hero (15 tegenover 12),
+   waardoor het beeldvlak als een rechthoek zichtbaar bleef. Deze zachte ovale
+   masker laat de randen uitdoven, zodat de animatie weer vrij lijkt te zweven. */
+.hero-video {
+  -webkit-mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 35%,
+    rgba(0, 0, 0, 0.35) 75%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 35%,
+    rgba(0, 0, 0, 0.35) 75%,
+    transparent 100%
+  );
 }
 
 /* Kleine hero voor subpagina's */
@@ -1196,8 +1222,10 @@ section[id] {
     grid-template-columns: 1fr;
   }
 
+  /* De hero staat hier onder elkaar; de liggende animatie mag dan wat
+     breder dan het vroegere vierkante logo, anders wordt ze erg laag. */
   .hero-figure {
-    max-width: 380px;
+    max-width: 520px;
   }
 
   .about-figure {
@@ -1218,10 +1246,22 @@ section[id] {
     display: none;
   }
 
-  /* Op gsm staat het logo al in de header; een tweede keer groot eronder
-     kost een derde scherm en voegt niets toe. */
+  /* Op gsm de staande versie van de animatie, onder de tekst. Ze wordt
+     bijgesneden in plaats van ingepast: zo blijft het blok hanteerbaar hoog
+     en vult het logo het kader, in plaats van klein tussen zwarte randen. */
   .hero-figure {
-    display: none;
+    aspect-ratio: auto;
+    /* Een vaste breedte, geen max-width: de video en het logo liggen er
+       allebei absoluut in, dus er is geen inhoud meer om op te meten. */
+    width: min(300px, 100%);
+    height: min(55vh, 420px);
+    /* Horizontaal centreren: de tekst erboven loopt over de volle breedte,
+       een smaller blok tegen de linkerrand leest als scheefstaand. */
+    margin: 2.5rem auto 0;
+  }
+
+  .hero-video {
+    object-fit: cover;
   }
 
   .nav-links {
